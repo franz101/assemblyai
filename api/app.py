@@ -2,10 +2,12 @@ import requests, config
 from flask import Flask, abort, request
 from googleapiclient.discovery import build
 from utils.youtube import get_channel_id_from_handle
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
-@app.route("/verify_channel/<handle>")
+@app.route("/verify_handle/<handle>")
 def verify_channel(handle="@parttimelarry"):
     channel_id = get_channel_id_from_handle(handle)
 

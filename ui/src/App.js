@@ -7,9 +7,9 @@ import { useEffect } from 'react';
 function App() {
   return (
     <div className="App">
-      <Typography variant='h1'>tube2blog</Typography>
+      <Typography variant='h2' mb={5}>tube2blog</Typography>
 
-      <Container>
+      <Container mt={3}>
         <Steps />
       </Container>
 

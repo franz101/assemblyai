@@ -52,7 +52,7 @@ export default function Steps() {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
+          <Typography variant='h4' sx={{ mt: 4, mb: 1 }}>{steps[activeStep]}</Typography>
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Button
               color="inherit"
