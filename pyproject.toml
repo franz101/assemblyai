@@ -10,6 +10,7 @@ packages = [{include = "tube2blog"}]
 python = "^3.10"
 pytest = "^7.2.0"
 requests = "^2.10"
+pytube = "^12.1.0"
 
 
 [build-system]
