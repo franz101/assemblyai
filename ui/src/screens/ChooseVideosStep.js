@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Container, Typography, TextField, Button } from '@mui/material';
+import VideoChooser from '../components/VideoChooser';
 
 const ChooseVideosStep = (props) => {
     const [error, setError] = useState(false);
@@ -8,8 +9,9 @@ const ChooseVideosStep = (props) => {
     console.log(props);
 
     return <Container>
-        videoChooser
+        <VideoChooser />
     </Container>
 }
 
 export default ChooseVideosStep;
+
