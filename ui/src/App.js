@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { Container, Typography, TextField} from '@mui/material';
+import Steps from './screens/Steps';
 
 function App() {
   return (
@@ -8,9 +9,10 @@ function App() {
       <Typography variant='h1'>tube2blog</Typography>
 
       <Container>
-        https://youtube.com/
-        <TextField id="outlined-basic" label="@yourchannel" variant="outlined" />
+      <Steps />
+
       </Container>
+
     </div>
   );
 }
