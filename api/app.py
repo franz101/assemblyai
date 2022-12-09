@@ -1,20 +1,20 @@
 import requests, config
 from flask import Flask
 from googleapiclient.discovery import build
-from utils.YTStats import YTstats
+from utils.youtube import get_channel_id_from_handle
 
 app = Flask(__name__)
 
 @app.route("/")
-def fetch_videos():
+def fetch_videos(handle="@parttimelarry"):
+    channel_id = get_channel_id_from_handle(handle)
 
-    #youtube = build('youtube', 'v3', developerKey=config.YOUTUBE_API_KEY)
+    if channel_id is None:
+        return {
+            "code": "error"
+        }
 
-    channel_id = "UCY2ifv8iH1Dsgjrz-h3lWLQ"
-
-    yt = YTstats(config.YOUTUBE_API_KEY, channel_id)
-    yt.extract_all()
-    yt.dump()  # dumps to .json
-    
-    response = "success"
-    return response
+    url = f"https://www.googleapis.com/youtube/v3/search?key={config.YOUTUBE_API_KEY}&channelId={channel_id}&part=snippet,id&order=date&maxResults=50"
+    r = requests.get(url)
+   
+    return r.json()
