@@ -1,5 +1,6 @@
 import requests
 import time
+from tube2blog.utils import read_file
 
 class AssemblyAiAPI:
     api_url = "https://api.assemblyai.com/v2"
@@ -44,7 +45,7 @@ class AssemblyAiAPI:
         j = r.json()
         return j["id"]
 
-    def upload_file(file_path):
+    def upload_file(self, file_path):
         r = requests.post(f'{self.api_url}/upload',
                         headers=self.headers,
                         data=read_file(filename))
@@ -52,7 +53,7 @@ class AssemblyAiAPI:
         return j["upload_url"]
 
     
-    def wait_for_job(id):
+    def wait_for_job(self, id):
         d = self.transcript(id)
         while d.get("status") not in ["error", "completed"]:
             time.sleep(1)
