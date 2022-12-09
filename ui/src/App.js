@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import { Container, Typography, TextField} from '@mui/material';
 import Steps from './screens/Steps';
+import { useEffect } from 'react';
 
 function App() {
   return (
@@ -9,8 +10,7 @@ function App() {
       <Typography variant='h1'>tube2blog</Typography>
 
       <Container>
-      <Steps />
-
+        <Steps />
       </Container>
 
     </div>
