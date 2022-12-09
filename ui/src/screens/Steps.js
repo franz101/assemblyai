@@ -6,17 +6,20 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import UsernameStep from './UsernameStep';
+import ChooseVideosStep from './ChooseVideosStep';
 
 const steps = ['Your Channel', 'Select Videos', 'Submitted'];
 
 export default function Steps() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
+  const [data, setData] = React.useState(null);
 
-  const handleNext = () => {
-    let newSkipped = skipped;
+  const handleNext = (data) => {
+    setData(data);
+    //let newSkipped = skipped;
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
+    //setSkipped(newSkipped);
   };
 
   const handleBack = () => {
@@ -65,7 +68,11 @@ export default function Steps() {
             <Box sx={{ flex: '1 1 auto' }} />
 
             {activeStep === 0 &&
-              <UsernameStep />
+              <UsernameStep onComplete={handleNext} />
+            }
+
+            {activeStep === 1 && 
+              <ChooseVideosStep onComplete={handleNext} data={data} />
             }
 
             <Button onClick={handleNext}>

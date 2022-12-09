@@ -1,5 +1,5 @@
 import requests, config
-from flask import Flask, abort, request
+from flask import Flask, abort, request, jsonify
 from googleapiclient.discovery import build
 from utils.youtube import get_channel_id_from_handle
 from flask_cors import CORS
@@ -27,3 +27,7 @@ def fetch_channel_videos(channel_id):
     r = requests.get(url)
    
     return r.json()
+
+@app.errorhandler(500)
+def server_error(e):
+    return jsonify(error=str(e)), 500
