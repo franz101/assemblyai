@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Container, Typography, TextField, Button } from '@mui/material';
 
-const UsernameStep = () => {
+const UsernameStep = (props) => {
     const [error, setError] = useState(false);
 
     const verifyHandle = () => {
@@ -16,6 +16,7 @@ const UsernameStep = () => {
             .then((r) => r.json())
             .then((response) => {
                 console.log(response);
+                props.onComplete(response);
             })
             .catch(function(error) {
                 console.log('Request failed', error);
