@@ -7,15 +7,15 @@ class AssemblyAiAPI:
     def __init__(self, API_KEY: str):
         self.create_headers(API_KEY)
 
-    def create_headers(API_KEY:str):
+    def create_headers(self, API_KEY:str):
         self.header = { "Authorization": API_KEY }
 
-    def transcript(id:str):
+    def transcript(self, id:str):
         r =  requests.get(f"{api_url}/transcript",
         headers=self.headers)
         return r.json()
 
-    def get_analysis(audio_url: str):
+    def get_analysis(self, audio_url: str):
         payload = {
             "audio_url": audio_url,
             "sentiment_analysis": True,
@@ -25,14 +25,24 @@ class AssemblyAiAPI:
             "content_safety": True,
             "auto_highlights": True
         }
+        r = requests.post(f'{self.api_url}/transcript',
+                        headers=self.headers,
+                        json=payload)
+        j = r.json()
+        return j["id"]
 
-    def get_summary():
+    def get_summary(self, audio_url: str):
         payload = {
             "audio_url" : audio_url,
             "summarization": True,
             "summary_type": "bullets",
             "summary_model":"informative"
         }
+        r = requests.post(f'{self.api_url}/transcript',
+                        headers=self.headers,
+                        json=payload)
+        j = r.json()
+        return j["id"]
 
     def upload_file(file_path):
         r = requests.post(f'{self.api_url}/upload',

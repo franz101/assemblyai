@@ -6,6 +6,6 @@ class Downloader:
         youtube_video = YouTube(url)
         streams = youtube_video.streams.filter(only_audio=True)
         stream = streams.first()
-        uid = uuid.uuid4().hex()
+        uid = uuid.uuid4().hex
         stream.download(filename=uid)
         return uid
