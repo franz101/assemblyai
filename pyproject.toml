@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "tube2blog"
+version = "0.1.0"
+description = ""
+authors = ["Franz Gusto <franz@rungalileo.io>"]
+readme = "README.md"
+packages = [{include = "tube2blog"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
