@@ -19,4 +19,6 @@ jobs:
       - name: Install dependencies
         run: poetry install
       - name: Test with pytest
+        env:
+          ASSEMBLYAI_API_KEY: ${{ secrets.ASSEMBLYAI_API_KEY }}
         run: poetry run pytest
