@@ -82,4 +82,5 @@ class AssemblyAiAPI:
               "id": id,
               "type": "analysis"
             })
+        return jobs
       
