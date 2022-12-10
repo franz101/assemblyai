@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import UsernameStep from './UsernameStep';
 import ChooseVideosStep from './ChooseVideosStep';
 
-const steps = ['Your Channel', 'Select Videos', 'Submitted'];
+const steps = ['Your Channel', 'Select Videos', 'Review', 'Submitted'];
 
 export default function Steps() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -29,6 +29,33 @@ export default function Steps() {
   const handleReset = () => {
     setActiveStep(0);
   };
+
+  const onVideosSelected = (selected) => {
+    setData(selected);
+    setActiveStep(2);
+  }
+
+  const finalize = () => {
+    fetch(`http://127.0.0.1:5000/enqueue_videos`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        video_urls: data
+      }),
+    })
+    .then((r) => r.json())
+    .then((response) => {
+        console.log(response);
+        setActiveStep(3);
+    })
+    .catch(function(error) {
+        console.log('Request failed', error);
+        //setError(true);
+    });
+  }
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -72,12 +99,18 @@ export default function Steps() {
             }
 
             {activeStep === 1 && 
-              <ChooseVideosStep onComplete={handleNext} data={data} />
+              <ChooseVideosStep onVideosSelected={onVideosSelected} data={data} />
             }
 
-            <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-            </Button>
+            {activeStep === 2 && <div>
+                <Box mt={3}>
+                  We are submitting the following video ID's:
+                  {data.map((videoId) => {
+                    return <div key={videoId}>{videoId}</div>
+                  })}
+                    <Button onClick={finalize} variant="outlined">Submit</Button>
+                </Box>
+            </div>} 
           </Box>
         </React.Fragment>
       )}

@@ -7,7 +7,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-@app.route("/verify_handle/<handle>")
+@app.get("/verify_handle/<handle>")
 def verify_channel(handle="@parttimelarry"):
     channel_id = get_channel_id_from_handle(handle)
 
@@ -19,7 +19,7 @@ def verify_channel(handle="@parttimelarry"):
         "channel_id": channel_id
     }
 
-@app.route("/fetch_channel_videos/<channel_id>")
+@app.get("/fetch_channel_videos/<channel_id>")
 def fetch_channel_videos(channel_id):
     page = request.args.get('page', 1)
 
@@ -27,6 +27,14 @@ def fetch_channel_videos(channel_id):
     r = requests.get(url)
    
     return r.json()
+
+@app.post("/enqueue_videos")
+def enqueue_videos():
+    data = request.json
+
+    # how are video URL's received? 
+    
+    return data['video_urls']
 
 @app.errorhandler(500)
 def server_error(e):
