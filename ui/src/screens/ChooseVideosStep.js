@@ -8,7 +8,7 @@ const ChooseVideosStep = (props) => {
     const [selectedVideos, setSelectedVideos] = useState([]);
 
     useEffect(() => {
-        fetch(`http://127.0.0.1:5000/fetch_channel_videos//${props.data.channel_id}`)
+        fetch(`http://127.0.0.1:5000/fetch_channel_videos/${props.data.channel_id}`)
             .then((r) => r.json())
             .then((response) => {
                 const videoRows = response.items.filter((row) => row.id.kind === 'youtube#video');

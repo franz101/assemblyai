@@ -30,11 +30,15 @@ def fetch_channel_videos(channel_id):
 
 @app.post("/enqueue_videos")
 def enqueue_videos():
+    # accepts json post with video_ids
     data = request.json
 
-    # how are video URL's received? 
-    
-    return data['video_urls']
+    video_urls = list(map(lambda id: f"https://www.youtube.com/watch?v={id}", data['video_ids']))
+
+    # where should we post / send video_urls to?
+    # should they be sent in batch or one by one
+
+    return video_urls
 
 @app.errorhandler(500)
 def server_error(e):

@@ -40,7 +40,7 @@ export default function Steps() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        video_urls: data
+        video_ids: data
       }),
     })
     .then((r) => r.json())
