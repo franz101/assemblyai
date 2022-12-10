@@ -12,7 +12,7 @@ const UsernameStep = (props) => {
             return;
         }
 
-        fetch(`http://127.0.0.1:5000/verify_handle/${handle}`)
+        fetch(`${process.env.REACT_APP_SERVER_HOST}/verify_handle/${handle}`)
             .then((r) => r.json())
             .then((response) => {
                 console.log(response);

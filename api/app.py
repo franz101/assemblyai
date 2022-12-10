@@ -1,6 +1,5 @@
 import requests, config
 from flask import Flask, abort, request, jsonify
-from googleapiclient.discovery import build
 from utils.youtube import get_channel_id_from_handle
 from flask_cors import CORS
 
