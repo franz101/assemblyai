@@ -62,7 +62,7 @@ class AssemblyAiAPI:
         d = self.transcript(id)
         while d.get("status") == "processing":
             time.sleep(1)
-            d = self.transcript(id)
+            d = self.get_transcript(id)
         return d
 
     def fetch_all_transcripts(self, audio_url: str):

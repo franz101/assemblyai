@@ -6,8 +6,8 @@ import json
 
 class Worker:
   
-  def __init__(self):
-    self.a = AssemblyAiAPI("a6cc25c4b313444ebb1c12c1ad27d354")
+  def __init__(self,assembly_ai_api_key="a6cc25c4b313444ebb1c12c1ad27d354"):
+    self.a = AssemblyAiAPI(assembly_ai_api_key)
     self.d = Downloader()
     self.p = Parser()
   
