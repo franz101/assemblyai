@@ -1,5 +1,7 @@
 from typing import Dict
-
+import json
+from markdownmaker.document import Document
+from markdownmaker.markdownmaker import *
 
 
 class Parser:
