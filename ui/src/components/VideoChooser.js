@@ -20,7 +20,7 @@ export default function VideoChooser(props) {
         rowHeight={200}
         rows={props.videos}
         columns={columns}
-        pageSize={5}
+        pageSize={10}
         rowsPerPageOptions={[50]}
         onSelectionModelChange={(ids) => {
             // const selectedIDs = 

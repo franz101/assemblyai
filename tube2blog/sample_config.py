@@ -1,0 +1,1 @@
+GHOST_ADMIN_API_KEY = 'ksadljflwekfjewao;kfjwelk:fwlajfekjlwnkjlewfnfklewn'

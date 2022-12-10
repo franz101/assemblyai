@@ -41,7 +41,7 @@ const UsernameStep = (props) => {
             </Grid>
         </Box>
         <Box mt={3}>
-            <Button onClick={verifyHandle} variant="contained">Next</Button>
+            <Button onClick={verifyHandle} variant="contained" disableElevation>Next</Button>
         </Box>
     </Container>
 }
