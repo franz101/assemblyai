@@ -29,7 +29,3 @@ body = {'posts': [{'title': 'Hello World'}]}
 r = requests.post(url, json=body, headers=headers)
 
 print(r)
-
-# 0591ebc4952ccb4ee67d3e55c4
-# 6394d1ff00520403026e55f3:9debb5258a60c912338e351d376e85276b58a754e0856ec118a3849d2c2be243
-# https://hackingthemarkets.com
