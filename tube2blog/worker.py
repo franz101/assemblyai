@@ -20,7 +20,7 @@ class Worker:
     audio_url = self.a.upload_file(audio_file_id)
     self.audio_url = audio_url
     print("Fetching transcripts")
-    self.jobs = self.fetch_all_transcripts(audio_url)
+    self.jobs = self.a.fetch_all_transcripts(audio_url)
     completed_jobs = []
     for job in jobs:
       print("Fetching jobs")

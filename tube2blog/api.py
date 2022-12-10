@@ -65,7 +65,7 @@ class AssemblyAiAPI:
             d = self.transcript(id)
         return d
 
-    def fetch_all_transcripts(audio_url: str):
+    def fetch_all_transcripts(self, audio_url: str):
         jobs = []
         summary_types = [
           "bullets","bullets_verbose",
