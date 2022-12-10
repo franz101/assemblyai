@@ -44,4 +44,4 @@ class Worker:
     self.p.add_headline(headline)
     self.p.add_paragraph(paragraph)
     with open("markdown.md","w") as f:
-      f.write(p.create_document())
+      f.write(self.p.create_document())
