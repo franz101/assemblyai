@@ -3,7 +3,6 @@ import { Box, Container, Button } from '@mui/material';
 import VideoChooser from '../components/VideoChooser';
 
 const ChooseVideosStep = (props) => {
-    //const [error, setError] = useState(undefined);
     const [videos, setVideos] = useState([]);
     const [selectedVideos, setSelectedVideos] = useState([]);
 
@@ -25,21 +24,19 @@ const ChooseVideosStep = (props) => {
             })
             .catch(function(error) {
                 console.log('Request failed', error);
-                //setError(error);
             });
             // eslint-disable-next-line
     }, []);
 
     const submitSelected = () => {
-        console.log('selectedvideos')
-        console.log(selectedVideos);
         props.onVideosSelected(selectedVideos);
     }
 
     return <Container>
         <VideoChooser videos={videos} setSelectedVideos={setSelectedVideos} />
         <Box mt={3}>
-            <Button onClick={submitSelected} variant="outlined">Review</Button>
+            <Button variant="text">Back</Button>
+            <Button onClick={submitSelected} variant="contained">Review</Button>
         </Box>
     </Container>
 }

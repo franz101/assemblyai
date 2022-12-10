@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Container, Grid, InputAdornment, Typography, TextField } from '@mui/material';
+import { Box, Button, Container, Grid, Input, InputAdornment, Typography, TextField } from '@mui/material';
 
 const UsernameStep = (props) => {
     const [error, setError] = useState(false);
@@ -25,27 +25,24 @@ const UsernameStep = (props) => {
     }
 
     return <Container>
-        <Grid container alignItems="center">
-            <Grid xs={3}>
+        <Box>
+            <Grid container alignItems="center">
+                <Grid xs={4}></Grid> 
+                <Grid>
+                    <Typography variant='h5'>https://youtube.com/&nbsp;</Typography>
+                </Grid>
 
+                <Grid xs={2}>
+                    <TextField id="handle" label="@youtubehandle" variant="outlined" error={error} />
+                </Grid>
+                <Grid item alignItems="stretch">
+                    &nbsp;&nbsp;
+                </Grid>
             </Grid>
-            <Grid>
-                <Typography variant='h4'>https://youtube.com/&nbsp;</Typography>
-            </Grid>
-
-            <Grid xs={2}>
-                <TextField id="handle" label="@youtubehandle" variant="outlined" error={error}             
-                    startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                />
-            </Grid>
-            <Grid item alignItems="stretch">
-                &nbsp;&nbsp;
-            </Grid>
-        </Grid>
-
-        <Button onClick={verifyHandle} variant="contained">Next &raquo;</Button>
-
-    
+        </Box>
+        <Box mt={3}>
+            <Button onClick={verifyHandle} variant="contained">Next</Button>
+        </Box>
     </Container>
 }
 
