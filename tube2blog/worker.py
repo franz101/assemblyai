@@ -43,5 +43,7 @@ class Worker:
     self.p.add_bullets(bullets_verbose)
     self.p.add_headline(headline)
     self.p.add_paragraph(paragraph)
+    markdown  = self.p.create_document()
     with open("markdown.md","w") as f:
-      f.write(self.p.create_document())
+      f.write(markdown)
+    return markdown
