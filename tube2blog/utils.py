@@ -8,4 +8,4 @@ def read_file(filename, chunk_size=5242880):
 
 def find_type(key,value,iter):
     filter_func = lambda x: x.get(key) == value
-    return next(filter(filter_func(), iter), None)
+    return next(filter(filter_func, iter), None)
