@@ -5,7 +5,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import UsernameStep from './UsernameStep';
+import UsernameStep from './ChannelStep';
 import ChooseVideosStep from './ChooseVideosStep';
 
 const steps = ['Your Channel', 'Select Videos', 'Review', 'Submitted'];
@@ -17,14 +17,6 @@ export default function Steps() {
   const handleNext = (data) => {
     setData(data);
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
   };
 
   const onVideosSelected = (selected) => {
@@ -67,50 +59,30 @@ export default function Steps() {
           );
         })}
       </Stepper>
-      {activeStep === steps.length ? (
-        <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>
-            All steps completed - you&apos;re finished
-          </Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Box sx={{ flex: '1 1 auto' }} />
-            <Button onClick={handleReset}>Reset</Button>
-          </Box>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          <Typography variant='h4' sx={{ mt: 4, mb: 1 }}>{steps[activeStep]}</Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Back
-            </Button>
-            <Box sx={{ flex: '1 1 auto' }} />
+      <>
+        <Typography variant='h4' sx={{ mt: 4, mb: 1 }}>{steps[activeStep]}</Typography>
+        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+          <Box sx={{ flex: '1 1 auto' }} />
 
-            {activeStep === 0 &&
-              <UsernameStep onComplete={handleNext} />
-            }
+          {activeStep === 0 &&
+            <UsernameStep onComplete={handleNext} />
+          }
 
-            {activeStep === 1 && 
-              <ChooseVideosStep onVideosSelected={onVideosSelected} data={data} />
-            }
+          {activeStep === 1 && 
+            <ChooseVideosStep onVideosSelected={onVideosSelected} data={data} />
+          }
 
-            {activeStep === 2 && <div>
-                <Box mt={3}>
-                  We are submitting the following video ID's:
-                  {data.map((videoId) => {
-                    return <div key={videoId}>{videoId}</div>
-                  })}
-                    <Button onClick={finalize} variant="outlined">Submit</Button>
-                </Box>
-            </div>} 
-          </Box>
-        </React.Fragment>
-      )}
+          {activeStep === 2 && <div>
+              <Box mt={3}>
+                We are submitting the following video ID's:
+                {data.map((videoId) => {
+                  return <div key={videoId}>{videoId}</div>
+                })}
+                  <Button onClick={finalize} variant="outlined">Submit</Button>
+              </Box>
+          </div>} 
+        </Box>
+      </>
     </Box>
   );
 }

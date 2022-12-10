@@ -20,3 +20,9 @@ npm start
 * Want to extract screenshots
 * Website + integration with marketing + creator tools
 * Multiple formats and languages
+
+# Ideas / Questions
+
+* Create site for the first time - use some sensible defaults based on channel metadata
+* Markdown editor
+* Site theme / settings editor
