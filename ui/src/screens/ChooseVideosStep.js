@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
-import { Box, Container, Typography, TextField, Button } from '@mui/material';
+import { Box, Container, Button } from '@mui/material';
 import VideoChooser from '../components/VideoChooser';
 
 const ChooseVideosStep = (props) => {
-    const [error, setError] = useState(undefined);
+    //const [error, setError] = useState(undefined);
     const [videos, setVideos] = useState([]);
     const [selectedVideos, setSelectedVideos] = useState([]);
 
     useEffect(() => {
-        fetch(`http://127.0.0.1:5000//fetch_channel_videos//${props.data.channel_id}`)
+        fetch(`http://127.0.0.1:5000/fetch_channel_videos//${props.data.channel_id}`)
             .then((r) => r.json())
             .then((response) => {
-                const videoRows = response.items.filter((row) => row.id.kind == 'youtube#video');
+                const videoRows = response.items.filter((row) => row.id.kind === 'youtube#video');
                 const rows = videoRows.map((row) => {
                     return {
                         id: row.id.videoId,
@@ -25,8 +25,9 @@ const ChooseVideosStep = (props) => {
             })
             .catch(function(error) {
                 console.log('Request failed', error);
-                setError(error);
+                //setError(error);
             });
+            // eslint-disable-next-line
     }, []);
 
     const submitSelected = () => {

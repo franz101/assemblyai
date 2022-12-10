@@ -12,14 +12,11 @@ const steps = ['Your Channel', 'Select Videos', 'Review', 'Submitted'];
 
 export default function Steps() {
   const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set());
   const [data, setData] = React.useState(null);
 
   const handleNext = (data) => {
     setData(data);
-    //let newSkipped = skipped;
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    //setSkipped(newSkipped);
   };
 
   const handleBack = () => {
