@@ -59,7 +59,7 @@ class AssemblyAiAPI:
         return j["upload_url"]
 
     def wait_for_job(self, id):
-        d = self.transcript(id)
+        d = self.get_transcript(id)
         while d.get("status") == "processing":
             time.sleep(1)
             d = self.get_transcript(id)
