@@ -5,12 +5,13 @@ from tube2blog.utils import find_type
 import json 
 
 class Worker:
+  
   def __init__(self):
     self.a = AssemblyAiAPI("a6cc25c4b313444ebb1c12c1ad27d354")
     self.d = Downloader()
     self.p = Parser()
   
-  def start(youtube_url):
+  def start(self, youtube_url):
     print("Downloading video")
     file_id = self.d.fetch_yt(youtube_url)
     print("Converting video")
