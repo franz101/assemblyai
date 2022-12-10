@@ -25,7 +25,7 @@ export default function Steps() {
   }
 
   const finalize = () => {
-    fetch(`http://127.0.0.1:5000/enqueue_videos`, {
+    fetch(`${process.env.REACT_APP_SERVER_HOST}/enqueue_videos`, {
       method: "POST",
       headers: {
         Accept: "application/json",
