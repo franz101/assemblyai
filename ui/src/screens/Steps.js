@@ -25,7 +25,7 @@ export default function Steps() {
   }
 
   const finalize = () => {
-    fetch(`${process.env.REACT_APP_SERVER_HOST}/enqueue_videos`, {
+    fetch(`${process.env.REACT_APP_SERVER_HOST}/api/enqueue_videos`, {
       method: "POST",
       headers: {
         Accept: "application/json",
