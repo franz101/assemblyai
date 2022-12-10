@@ -1,0 +1,12 @@
+[Unit]
+Description=streamline backend
+After=network.target
+
+[Service]
+User=assembly
+WorkingDirectory=/home/assembly/assemblyai/api
+ExecStart=/home/assembly/assemblyai/api/venv/bin/gunicorn --chdir /home/assembly/assemblyai/api/ -b 127.0.0.1:5000 app:app
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
