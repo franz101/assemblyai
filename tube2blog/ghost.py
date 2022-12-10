@@ -23,9 +23,9 @@ payload = {
 token = jwt.encode(payload, bytes.fromhex(secret), algorithm='HS256', headers=header)
 
 # Make an authenticated request to create a post
-url = f'{config.GHOST_DOMAIN}/ghost/api/admin/posts/'
+url = f'{config.GHOST_DOMAIN}/ghost/api/admin/posts/?source=html'
 headers = {'Authorization': 'Ghost {}'.format(token)}
-body = {'posts': [{'title': 'Hello World2', 'body': '# test body\n## test 2\n```test3```'}]}
+body = {'posts': [{'title': 'Test HTML Source', "html": "<h1>level 1</h1> <p>My post content. Work in progress...</p>"}]}
 r = requests.post(url, json=body, headers=headers)
 
 print(r)
