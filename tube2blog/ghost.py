@@ -23,9 +23,9 @@ payload = {
 token = jwt.encode(payload, bytes.fromhex(secret), algorithm='HS256', headers=header)
 
 # Make an authenticated request to create a post
-url = 'https://hackingthemarkets.com/ghost/api/admin/posts/'
+url = f'{config.GHOST_DOMAIN}/ghost/api/admin/posts/'
 headers = {'Authorization': 'Ghost {}'.format(token)}
-body = {'posts': [{'title': 'Hello World'}]}
+body = {'posts': [{'title': 'Hello World2', 'body': '# test body\n## test 2\n```test3```'}]}
 r = requests.post(url, json=body, headers=headers)
 
 print(r)
