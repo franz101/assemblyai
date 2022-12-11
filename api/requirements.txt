@@ -4,3 +4,6 @@ requests
 google-api-python-client
 bs4
 gunicorn
+markdownmaker
+pytube
+moviepy

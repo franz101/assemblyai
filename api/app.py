@@ -2,6 +2,7 @@ import requests, config
 from flask import Flask, abort, request, jsonify
 from utils.youtube import get_channel_id_from_handle
 from flask_cors import CORS
+from tube2blog.worker import Worker
 
 app = Flask(__name__)
 CORS(app)
@@ -34,10 +35,9 @@ def enqueue_videos():
 
     video_urls = list(map(lambda id: f"https://www.youtube.com/watch?v={id}", data['video_ids']))
 
-    # where should we post / send video_urls to?
-    # should they be sent in batch or one by one
+    w = Worker(assembly_ai_api_key=config.ASSEMBLY_AI_KEY).start(video_urls[0])
 
-    return video_urls
+    return video_urls 
 
 @app.errorhandler(500)
 def server_error(e):
