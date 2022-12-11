@@ -85,37 +85,37 @@ def update_video_status(video_id):
     if data["status"] == "finished":
         video.finished_timestamp = datetime.now()
 
-    # Admin API key goes here
-    key = config.GHOST_ADMIN_API_KEY
+        # Admin API key goes here
+        key = config.GHOST_ADMIN_API_KEY
 
-    # Split the key into ID and SECRET
-    id, secret = key.split(":")
+        # Split the key into ID and SECRET
+        id, secret = key.split(":")
 
-    # Prepare header and payload
-    iat = int(datetime.now().timestamp())
+        # Prepare header and payload
+        iat = int(datetime.now().timestamp())
 
-    header = {"alg": "HS256", "typ": "JWT", "kid": id}
-    payload = {"iat": iat, "exp": iat + 5 * 60, "aud": "/admin/"}
+        header = {"alg": "HS256", "typ": "JWT", "kid": id}
+        payload = {"iat": iat, "exp": iat + 5 * 60, "aud": "/admin/"}
 
-    # Create the token (including decoding secret)
-    token = jwt.encode(
-        payload, bytes.fromhex(secret), algorithm="HS256", headers=header
-    )
+        # Create the token (including decoding secret)
+        token = jwt.encode(
+            payload, bytes.fromhex(secret), algorithm="HS256", headers=header
+        )
 
-    # Make an authenticated request to create a post
-    url = f"{config.GHOST_DOMAIN}/ghost/api/admin/posts/?source=html"
-    headers = {"Authorization": "Ghost {}".format(token)}
-    html = markdown.markdown(data["markdown"])
-    html = html.replace(
-        "<YOUTUBE_EMBED_PLACEHOLDER>",
-        f'<iframe width="560" height="315" src="https://www.youtube.com/embed/{video_id}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
-    )
-    html = html.replace(
-        "THUMBNAIL_PLACEHOLDER_URL",
-        f"https://i.ytimg.com/vi/{video_id}/maxresdefault.jpg",
-    )
-    body = {"posts": [{"title": video.title, "html": html, "status": "published"}]}
-    r = requests.post(url, json=body, headers=headers)
+        # Make an authenticated request to create a post
+        url = f"{config.GHOST_DOMAIN}/ghost/api/admin/posts/?source=html"
+        headers = {"Authorization": "Ghost {}".format(token)}
+        html = markdown.markdown(data["markdown"])
+        html = html.replace(
+            "<YOUTUBE_EMBED_PLACEHOLDER>",
+            f'<iframe width="560" height="315" src="https://www.youtube.com/embed/{video_id}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
+        )
+        html = html.replace(
+            "THUMBNAIL_PLACEHOLDER_URL",
+            f"https://i.ytimg.com/vi/{video_id}/maxresdefault.jpg",
+        )
+        body = {"posts": [{"title": video.title, "html": html, "status": "published"}]}
+        r = requests.post(url, json=body, headers=headers)
 
     try:
         db.session.add(video)
