@@ -3,14 +3,14 @@ import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import UsernameStep from "./ChannelStep";
 import ChooseVideosStep from "./ChooseVideosStep";
-import Paper from "@mui/material/Paper";
+import ConfettiExplosion from "react-confetti-explosion";
 import Container from "@mui/material/Container";
 import PlayCircleOutlineTwoToneIcon from "@mui/icons-material/PlayCircleOutlineTwoTone";
 import { useState } from "react";
+
 const steps = ["Connect Channel", "Select Videos", "Submitted"];
 
 export default function Steps() {
@@ -124,10 +124,13 @@ export default function Steps() {
                   Thank you for your submission!
                 </Typography>
                 <Box mt={3}>
-                  The following video IDs will be submitted:
+                  <ConfettiExplosion />
+                  The following video IDs are submitted 🎉:
                   {selectedVideos.map((videoId) => {
                     return <div key={videoId}>{videoId}</div>;
                   })}
+                  In around 20 minutes you can find the results on the blog:
+                  <a href={"https://videopub.ghost.io"}>videopub.ghost.io</a>
                 </Box>
               </div>
             )}
