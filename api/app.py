@@ -53,15 +53,15 @@ def fetch_channel_videos(channel_id):
 @app.post("/api/enqueue_videos")
 def enqueue_videos():
     # accepts json post with video_ids
-    data = request.json
+    videos = request.json
 
-    for video_id in data["video_ids"]:
+    for video_id in videos:
         video_url = f"https://www.youtube.com/watch?v={video_id}"
-
         video = VideoQueue()
         video.video_id = video_id
         video.status = "queued"
         video.queued_timestamp = datetime.now()
+        video.title = videos[video_id]
         db.session.add(video)
         db.session.commit()
 
@@ -114,7 +114,7 @@ def update_video_status(video_id):
         "THUMBNAIL_PLACEHOLDER_URL",
         f"https://i.ytimg.com/vi/{video_id}/maxresdefault.jpg",
     )
-    body = {"posts": [{"title": data["title"], "html": html}]}
+    body = {"posts": [{"title": video.title, "html": html}]}
     r = requests.post(url, json=body, headers=headers)
 
     try:

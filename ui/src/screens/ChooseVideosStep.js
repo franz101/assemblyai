@@ -33,7 +33,7 @@ const ChooseVideosStep = (props) => {
   }, []);
 
   const submitSelected = () => {
-    props.onVideosSelected(selectedVideos);
+    props.onVideosSelected(selectedVideos, videos);
   };
 
   return (

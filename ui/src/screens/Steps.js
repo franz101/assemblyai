@@ -16,15 +16,22 @@ const steps = ["Connect Channel", "Select Videos", "Submitted"];
 export default function Steps() {
   const [activeStep, setActiveStep] = useState(0);
   const [selectedVideos, setSelectedVideos] = useState([]);
+  const [videoPayload, setVideoPayload] = useState({});
   const [userPayload, setUserPayload] = useState({});
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
-  const onVideosSelected = (selectedVideos) => {
-    setSelectedVideos(selectedVideos);
-    finalize(selectedVideos);
+  const onVideosSelected = (selectedVideos, videos) => {
+    let selectedWithTitle = {};
+    videos.forEach((video) => {
+      if (selectedVideos.includes(video.id)) {
+        selectedWithTitle[video.id] = video.title;
+      }
+    });
+
+    finalize(selectedWithTitle);
     setActiveStep(2);
   };
 
@@ -35,9 +42,7 @@ export default function Steps() {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        video_ids: selectedVideos,
-      }),
+      body: JSON.stringify(selectedVideos),
     })
       .then((r) => r.json())
       .then((response) => {

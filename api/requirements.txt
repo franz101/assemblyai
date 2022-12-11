@@ -12,3 +12,4 @@ celery
 redis
 pyjwt
 youtube-dl
+markdown

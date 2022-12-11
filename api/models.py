@@ -5,6 +5,7 @@ from dataclasses import dataclass
 class VideoQueue(db.Model):
     id:int = db.Column(db.Integer, primary_key=True)
     video_id:str = db.Column(db.String, nullable=False)
+    title:str = db.Column(db.String)
     transcript:str = db.Column(db.String)
     markdown:str = db.Column(db.String)
     status:str = db.Column(db.String)
