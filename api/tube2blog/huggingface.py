@@ -5,6 +5,8 @@ import time
 
 class HuggingfaceApi:
     headers = {
+        "Accept": "*/*",
+        "Accept-Language": "en-GB,en;q=0.9",
         "Accept-Encoding": "gzip, deflate, br",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
@@ -30,11 +32,10 @@ class HuggingfaceApi:
         )
         return r.json().get("hash")
 
-    def get_job(self, job_hash):
-        payload = {"hash": job_hash}
-        r = requests.get(
-            f"{self.api_url}/queue/status",
-            json=payload,
+    def get_job(self, hash):
+        r = requests.post(
+            f"{self.api_url}/queue/status/",
+            json={"hash": hash},
             headers=self.headers,
             cookies={},
             auth=(),
@@ -42,7 +43,9 @@ class HuggingfaceApi:
         return r.json()
 
     def wait_for_job(self, job_hash):
+        print("waiting for job")
         status = self.get_job(job_hash)
+        assert status.get("status")
         while status.get("status") not in ["FAILED", "COMPLETE"]:
             time.sleep(1)
             status = self.get_job(job_hash)

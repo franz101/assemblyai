@@ -34,7 +34,7 @@ class CohereAPI:
                 ),
             ],
         )
-        return pred.generations[0].text
+        return pred.classifications
 
     def headline_generator(self, input_text):
         prompt = f"""This program generates a viral headline given an input.

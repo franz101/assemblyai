@@ -3,3 +3,5 @@ poetry
 pyjwt
 requests
 youtube-dl
+yt-dlp
+cohere
