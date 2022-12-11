@@ -59,35 +59,8 @@ const UsernameStep = ({ onComplete }) => {
           }}
         />
       </Grid>
-
-      {/* <Grid item xs={12} sm={6}>
-        <Button onClick={verifyHandle} variant="contained" disableElevation>
-          Next
-        </Button>
-      </Grid> */}
     </Grid>
   );
 };
 
 export default UsernameStep;
-
-/* <Container>
-        <Box>
-            <Grid container alignItems="center">
-                <Grid xs={4}></Grid> 
-                <Grid>
-                    <Typography variant='h5'>https://youtube.com/&nbsp;</Typography>
-                </Grid>
-
-                <Grid xs={2}>
-                    <TextField id="handle" label="@youtubehandle" variant="outlined" error={error} />
-                </Grid>
-                <Grid item alignItems="stretch">
-                    &nbsp;&nbsp;
-                </Grid>
-            </Grid>
-        </Box>
-        <Box mt={3}>
-            
-        </Box>
-    </Container> */

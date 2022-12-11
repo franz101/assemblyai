@@ -23,5 +23,7 @@ class Parser:
         if hasattr(self, "image"):
             doc.add(Image(url=self.image["url"], alt_text=self.image["alt_text"]))
         doc.add(Paragraph(self.bullets))
+        doc.add(Paragraph("<YOUTUBE_EMBED_PLACEHOLDER>"))
+        doc.add(Paragraph("Transcript:"))
         doc.add(Paragraph(self.paragraph))
         return doc.write()
