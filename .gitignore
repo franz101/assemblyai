@@ -268,3 +268,5 @@ cython_debug/
 
 api/config.py
 api/tube2blog/config.py
+
+tmp

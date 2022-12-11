@@ -2,3 +2,4 @@ pytest
 poetry
 pyjwt
 requests
+youtube-dl
