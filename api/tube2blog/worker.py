@@ -56,7 +56,7 @@ class Worker:
         self.p.add_bullets(bullets_verbose)
         self.p.add_headline(headline)
         self.p.add_paragraph(paragraph)
-        markdown, html = self.p.create_document()
+        markdown = self.p.create_document()
         with open("tmp/markdown.md", "w") as f:
             f.write(markdown)
         self.status_update(
@@ -65,7 +65,6 @@ class Worker:
                 "status": "finished",
                 "transcript": paragraph,
                 "markdown": markdown,
-                "html": html,
                 "title": headline
             },
         )
