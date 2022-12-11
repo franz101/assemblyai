@@ -3,9 +3,16 @@ from flask import Flask, abort, request, jsonify
 from utils.youtube import get_channel_id_from_handle
 from flask_cors import CORS
 from tube2blog.worker import Worker
+from celery import Celery
 
 app = Flask(__name__)
 CORS(app)
+
+# add celery config
+app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379/0'
+app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
+celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
+celery.conf.update(app.config)
 
 @app.get("/api/verify_handle/<handle>")
 def verify_channel(handle="@parttimelarry"):
@@ -35,9 +42,14 @@ def enqueue_videos():
 
     video_urls = list(map(lambda id: f"https://www.youtube.com/watch?v={id}", data['video_ids']))
 
-    w = Worker(assembly_ai_api_key=config.ASSEMBLY_AI_KEY).start(video_urls[0])
+    for video_url in video_urls:
+        prepare_video_transcript.delay(video_url)
 
     return video_urls 
+
+@celery.task
+def prepare_video_transcript(video_url):
+    w = Worker(assembly_ai_api_key=config.ASSEMBLY_AI_KEY).start(video_url)
 
 @app.errorhandler(500)
 def server_error(e):
