@@ -29,3 +29,16 @@ with youtube_dl.YoutubeDL(ydl_opts) as ydl:
     ydl.download(['https://www.youtube.com/watch?v=BaW_jenozKc'])
 
 # %%
+import sys
+sys.path.insert(1, "./api")
+from tube2blog.worker import Worker
+w = Worker().start("https://www.youtube.com/watch?v=5GorMC2lPpk")
+# %%
+!pip install markdownmaker
+# %%
+
+import pathlib
+
+# %%
+pathlib.Path("./tmp/BawJenozKc.webm").with_suffix(".mp3")
+# %%
