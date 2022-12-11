@@ -37,9 +37,7 @@ class Worker:
         headline = find_type("type", "headline", completed_jobs)["transcript"][
             "summary"
         ]
-        paragraph = find_type("type", "paragraph", completed_jobs)["transcript"][
-            "summary"
-        ]
+        paragraph = find_type("type", "paragraph", completed_jobs)["transcript"]["text"]
 
         self.p.add_bullets(bullets_verbose)
         self.p.add_headline(headline)

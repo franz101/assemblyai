@@ -27,7 +27,7 @@ class Downloader:
         def my_hook(d):
             if d["status"] == "finished":
                 print("Done downloading, now converting ...")
-                filename = pathlib.Path(d["filename"]).with_suffix("mp3")
+                filename = pathlib.Path(d["filename"]).with_suffix(".mp3")
 
         ydl_opts = {
             "format": "worstaudio/worst",
@@ -43,4 +43,4 @@ class Downloader:
         }
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
-        return filename
+        return str(filename)

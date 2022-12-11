@@ -11,3 +11,4 @@ moviepy
 celery
 redis
 pyjwt
+youtube-dl
