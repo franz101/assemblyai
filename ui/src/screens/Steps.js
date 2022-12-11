@@ -134,10 +134,13 @@ export default function Steps() {
                     }}
                   />
                   The following video IDs are submitted 🎉:
+                  <br />
                   {selectedVideos.map((videoId) => {
                     return <div key={videoId}>{videoId}</div>;
                   })}
+                  <br />
                   In around 20 minutes you can find the results on the blog:
+                  <br />
                   <a href={"https://videopub.ghost.io"}>videopub.ghost.io</a>
                 </Box>
               </div>
