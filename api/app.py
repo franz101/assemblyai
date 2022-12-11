@@ -4,6 +4,10 @@ from utils.youtube import get_channel_id_from_handle
 from flask_cors import CORS
 from tube2blog.worker import Worker
 from celery import Celery
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+
+db = SQLAlchemy()
 
 app = Flask(__name__)
 CORS(app)
@@ -13,6 +17,16 @@ app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379/0'
 app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
 celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
 celery.conf.update(app.config)
+
+# sqlalchemy configuration
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///streamline.db"
+db.init_app(app)
+
+from models import VideoQueue
+
+with app.app_context():
+    from models import *
+    db.create_all()
 
 @app.get("/api/verify_handle/<handle>")
 def verify_channel(handle="@parttimelarry"):
@@ -42,10 +56,44 @@ def enqueue_videos():
 
     video_urls = list(map(lambda id: f"https://www.youtube.com/watch?v={id}", data['video_ids']))
 
-    for video_url in video_urls:
+    for video_id in data['video_ids']:
+        video = VideoQueue()
+        video.video_id = video_id
+        video.status = "queued"
+        video.queued_timestamp = datetime.now()
+        db.session.add(video)
+        db.session.commit()
+        
         prepare_video_transcript.delay(video_url)
 
     return video_urls 
+
+@app.post("/api/update_video_status/<video_id>")
+def update_video_status(video_id):
+    data = request.json
+
+    video = VideoQueue.query.filter(VideoQueue.video_id==video_id).first()
+    if video is None:
+        abort(500, "Video not found")
+
+    video.status = data["status"]
+    video.transcript = data["transcript"]
+    video.markdown = data["markdown"]
+    if data["status"] == "finished":
+        video.finished_timestamp = datetime.now()
+
+    try:
+        db.session.add(video)
+        db.session.commit()
+        return {
+            "code": "success"
+        }
+    except Exception as e:
+        return {
+            "code": "error",
+            "message": str(e)
+        }
+
 
 @celery.task
 def prepare_video_transcript(video_url):
