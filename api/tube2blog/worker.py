@@ -3,6 +3,9 @@ from tube2blog.parser import Parser
 from tube2blog.downloader import Downloader
 from tube2blog.utils import find_type
 import json
+import requests
+
+HOST = "http://localhost:5000"
 
 
 class Worker:
@@ -11,10 +14,21 @@ class Worker:
         self.d = Downloader()
         self.p = Parser()
 
+    def status_update(self, id, payload):
+        try:
+            requests.post(f"{HOST}/api/update_video_status/{id}", json=payload)
+        except Exception as e:
+            print(e)
+
     def start(self, youtube_url):
+
         print("Downloading video")
-        file_id = self.d.youtube_dl(youtube_url)
+
+        video_id, file_id = self.d.youtube_dl(youtube_url)
         print("Uploading file")
+        self.status_update(
+            video_id, {"status": "processing", "transcript": "", "markdown": "markdown"}
+        )
         audio_url = self.a.upload_file(file_id)
         self.audio_url = audio_url
         print("Fetching transcripts")
@@ -30,7 +44,7 @@ class Worker:
                 completed_jobs.append(job)
 
         print("creating files")
-        bullets = find_type("type", "bullets", completed_jobs)["transcript"]["summary"]
+        # bullets = find_type("type", "bullets", completed_jobs)["transcript"]["summary"]
         bullets_verbose = find_type("type", "bullets_verbose", completed_jobs)[
             "transcript"
         ]["summary"]
@@ -45,4 +59,13 @@ class Worker:
         markdown = self.p.create_document()
         with open("tmp/markdown.md", "w") as f:
             f.write(markdown)
+        self.status_update(
+            video_id,
+            {
+                "status": "finished",
+                "transcript": paragraph,
+                "markdown": markdown,
+            },
+        )
+
         return markdown

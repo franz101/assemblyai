@@ -21,16 +21,15 @@ class Downloader:
         audio.write_audiofile(output_file)
         return output_file
 
+    def _set_filename(self, d):
+        if d["status"] == "finished":
+            print("Done downloading, now converting ...")
+            self.filename = pathlib.Path(d["filename"]).with_suffix(".mp3")
+
     def youtube_dl(self, url):
-        filename = ""
-
-        def my_hook(d):
-            if d["status"] == "finished":
-                print("Done downloading, now converting ...")
-                filename = pathlib.Path(d["filename"]).with_suffix(".mp3")
-
         ydl_opts = {
             "format": "worstaudio/worst",
+            "cachedir": "./tmp/cache",
             "postprocessors": [
                 {
                     "key": "FFmpegExtractAudio",
@@ -38,9 +37,9 @@ class Downloader:
                     "preferredquality": "192",
                 }
             ],
-            "progress_hooks": [my_hook],
+            "progress_hooks": [self._set_filename],
             "outtmpl": "./tmp/%(id)s.%(ext)s",
         }
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
-        return str(filename)
+        return self.filename.stem, str(self.filename)

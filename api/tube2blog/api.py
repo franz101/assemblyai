@@ -32,10 +32,12 @@ class AssemblyAiAPI:
         j = r.json()
         return j.get("id")
 
-    def get_summary(self, audio_url: str,
-                    summary_type: str = "bullets",
-                    summary_model: str = "informative"
-                   ):
+    def get_summary(
+        self,
+        audio_url: str,
+        summary_type: str = "bullets",
+        summary_model: str = "informative",
+    ):
         payload = {
             "audio_url": audio_url,
             "summarization": True,
@@ -43,17 +45,14 @@ class AssemblyAiAPI:
             "summary_model": summary_model,
         }
         r = requests.post(
-            f"{self.api_url}/transcript",
-          headers=self.headers,
-          json=payload)
+            f"{self.api_url}/transcript", headers=self.headers, json=payload
+        )
         j = r.json()
         return j.get("id")
 
     def upload_file(self, file_path):
         r = requests.post(
-            f"{self.api_url}/upload",
-          headers=self.headers,
-          data=read_file(file_path)
+            f"{self.api_url}/upload", headers=self.headers, data=read_file(file_path)
         )
         j = r.json()
         return j["upload_url"]
@@ -68,19 +67,14 @@ class AssemblyAiAPI:
     def fetch_all_transcripts(self, audio_url: str):
         jobs = []
         summary_types = [
-          "bullets","bullets_verbose",
-          "headline","paragraph"
+            # "bullets",
+            "bullets_verbose",
+            "headline",
+            "paragraph",
         ]
         for summary_type in summary_types:
             id = self.get_summary(audio_url, summary_type)
-            jobs.append({
-              "id": id,
-              "type": summary_type
-            })
+            jobs.append({"id": id, "type": summary_type})
         id = self.get_analysis(audio_url)
-        jobs.append({
-              "id": id,
-              "type": "analysis"
-            })
+        jobs.append({"id": id, "type": "analysis"})
         return jobs
-      
