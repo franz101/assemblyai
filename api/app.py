@@ -114,7 +114,7 @@ def update_video_status(video_id):
         "THUMBNAIL_PLACEHOLDER_URL",
         f"https://i.ytimg.com/vi/{video_id}/maxresdefault.jpg",
     )
-    body = {"posts": [{"title": video.title, "html": html}]}
+    body = {"posts": [{"title": video.title, "html": html, "status": "published"}]}
     r = requests.post(url, json=body, headers=headers)
 
     try:
