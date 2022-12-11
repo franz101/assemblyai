@@ -25,7 +25,7 @@ class Worker:
             job_id = job.get("id")
             if job_id:
                 job["transcript"] = self.a.wait_for_job(job_id)
-                with open(f"{job['type']}.json", "w") as f:
+                with open(f"tmp/{job['type']}.json", "w") as f:
                     f.write(json.dumps(job))
                 completed_jobs.append(job)
 
@@ -45,6 +45,6 @@ class Worker:
         self.p.add_headline(headline)
         self.p.add_paragraph(paragraph)
         markdown = self.p.create_document()
-        with open("markdown.md", "w") as f:
+        with open("tmp/markdown.md", "w") as f:
             f.write(markdown)
         return markdown
