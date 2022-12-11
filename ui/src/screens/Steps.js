@@ -1,30 +1,34 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import UsernameStep from './ChannelStep';
-import ChooseVideosStep from './ChooseVideosStep';
-
-const steps = ['Your Channel', 'Select Videos', 'Review', 'Submitted'];
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import UsernameStep from "./ChannelStep";
+import ChooseVideosStep from "./ChooseVideosStep";
+import Paper from "@mui/material/Paper";
+import Container from "@mui/material/Container";
+import PlayCircleOutlineTwoToneIcon from "@mui/icons-material/PlayCircleOutlineTwoTone";
+import { useState } from "react";
+const steps = ["Connect Channel", "Select Videos", "Submitted"];
 
 export default function Steps() {
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [data, setData] = React.useState(null);
+  const [activeStep, setActiveStep] = useState(0);
+  const [selectedVideos, setSelectedVideos] = useState([]);
+  const [userPayload, setUserPayload] = useState({});
 
-  const handleNext = (data) => {
-    setData(data);
+  const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
-  const onVideosSelected = (selected) => {
-    setData(selected);
+  const onVideosSelected = (selectedVideos) => {
+    setSelectedVideos(selectedVideos);
+    finalize(selectedVideos);
     setActiveStep(2);
-  }
+  };
 
-  const finalize = () => {
+  const finalize = (selectedVideos) => {
     fetch(`${process.env.REACT_APP_SERVER_HOST}/api/enqueue_videos`, {
       method: "POST",
       headers: {
@@ -32,57 +36,100 @@ export default function Steps() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        video_ids: data
+        video_ids: selectedVideos,
       }),
     })
-    .then((r) => r.json())
-    .then((response) => {
+      .then((r) => r.json())
+      .then((response) => {
         console.log(response);
-        setActiveStep(3);
-    })
-    .catch(function(error) {
-        console.log('Request failed', error);
+      })
+      .catch(function (error) {
+        console.log("Request failed", error);
         //setError(true);
-    });
-  }
+      });
+  };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Stepper activeStep={activeStep}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
-      <>
-        <Typography variant='h4' sx={{ mt: 4, mb: 1 }}>{steps[activeStep]}</Typography>
-        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-          <Box sx={{ flex: '1 1 auto' }} />
+    <Container component="main" sx={{ mb: 4 }}>
+      <Box
+        sx={{
+          my: 2,
+          mx: 2,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "left",
+        }}
+      >
+        <Typography
+          component="h1"
+          variant="h4"
+          align="left"
+          style={{ fontFamily: "HelveticaNeue-Light", letterSpacing: 2 }}
+        >
+          <PlayCircleOutlineTwoToneIcon sx={{ mr: 1, mb: -0.25 }} />
+          <b>stream</b>line
+        </Typography>
+        <div>{/* <img src="./logo.png" height="80px" /> */}</div>
 
-          {activeStep === 0 &&
-            <UsernameStep onComplete={handleNext} />
-          }
+        {
+          <>
+            <Stepper activeStep={activeStep} sx={{ pt: 4 }}>
+              {steps.map((label, index) => {
+                const stepProps = {};
+                const labelProps = {};
+                return (
+                  <Step key={label} {...stepProps}>
+                    <StepLabel {...labelProps}>{label}</StepLabel>
+                  </Step>
+                );
+              })}
+            </Stepper>
+          </>
+        }
 
-          {activeStep === 1 && 
-            <ChooseVideosStep onVideosSelected={onVideosSelected} data={data} />
-          }
+        <>
+          <Box
+            sx={{
+              my: 2,
 
-          {activeStep === 2 && <div>
-              <Box mt={3}>
-                We are submitting the following video ID's:
-                {data.map((videoId) => {
-                  return <div key={videoId}>{videoId}</div>
-                })}
-                  <Button onClick={finalize} variant="outlined">Submit</Button>
-              </Box>
-          </div>} 
-        </Box>
-      </>
-    </Box>
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Box sx={{ flex: "1 1 auto" }} />
+            {activeStep === 0 && (
+              <UsernameStep
+                onComplete={(userPayload) => {
+                  setUserPayload(userPayload);
+                  handleNext();
+                }}
+              />
+            )}
+            {activeStep === 1 && (
+              <ChooseVideosStep
+                onVideosSelected={onVideosSelected}
+                data={userPayload}
+              />
+            )}
+
+            {activeStep === 2 && (
+              <div>
+                <Typography variant="h5" gutterBottom component="div">
+                  Thank you for your submission!
+                </Typography>
+                <Box mt={3}>
+                  The following video IDs will be submitted:
+                  {selectedVideos.map((videoId) => {
+                    return <div key={videoId}>{videoId}</div>;
+                  })}
+                </Box>
+              </div>
+            )}
+          </Box>
+        </>
+      </Box>
+      {/* </Paper> */}
+    </Container>
   );
 }
