@@ -25,8 +25,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="https://streamline.lol/">
+        Stream Line
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -40,13 +40,6 @@ function App() {
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-        {/* <AppBar position="relative" color="primary">
-          <Toolbar>
-            <Typography variant="h6" color="inherit" noWrap>
-              streamline
-            </Typography>
-          </Toolbar>
-        </AppBar> */}
         <Grid container component="main" sx={{ height: "100vh" }}>
           <Grid
             item
@@ -56,7 +49,6 @@ function App() {
             component={Paper}
             elevation={6}
             square
-            // style={{ backgroundColor: "grey" }}
           >
             <Steps />
           </Grid>
@@ -67,7 +59,7 @@ function App() {
             sm={4}
             md={5}
             sx={{
-              backgroundImage: "url(https://source.unsplash.com/random)",
+              backgroundImage: "url(./side.jpg)",
               backgroundRepeat: "no-repeat",
               backgroundColor: (t) =>
                 t.palette.mode === "light"
