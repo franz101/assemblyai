@@ -61,7 +61,7 @@ class Worker:
         paragraph = find_type("type", "paragraph", completed_jobs)["transcript"]["text"]
         self.p.add_bullets(bullets_verbose)
         self.p.add_headline(headline)
-        self.p.add_image("THUMBNAIL_PLACEHOLDER_URL")
+        self.p.add_image({"url": "THUMBNAIL_PLACEHOLDER_URL", "alt_text": headline})
         self.p.add_paragraph(paragraph)
         markdown = self.p.create_document()
         with open("tmp/markdown.md", "w") as f:

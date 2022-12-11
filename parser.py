@@ -39,6 +39,10 @@ w = Worker().start("https://www.youtube.com/watch?v=5GorMC2lPpk")
 
 import pathlib
 
+
+
+# %%
+""
 # %%
 pathlib.Path("./tmp/BawJenozKc.webm").with_suffix(".mp3")
 # %%
