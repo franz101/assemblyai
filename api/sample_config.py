@@ -1,1 +1,2 @@
 YOUTUBE_API_KEY = ""
+ASSEMBLY_AI_KEY = ""

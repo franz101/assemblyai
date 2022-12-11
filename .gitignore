@@ -267,4 +267,4 @@ cython_debug/
 #.idea/
 
 api/config.py
-tube2blog/config.py
+api/tube2blog/config.py

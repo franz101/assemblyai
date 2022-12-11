@@ -9,3 +9,4 @@ pytube
 moviepy
 celery
 redis
+pyjwt
