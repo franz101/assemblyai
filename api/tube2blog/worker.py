@@ -27,7 +27,7 @@ class Worker:
         video_id, file_id = self.d.youtube_dl(youtube_url)
         print("Uploading file")
         self.status_update(
-            video_id, {"status": "processing", "transcript": "", "markdown": "markdown"}
+            video_id, {"status": "processing", "transcript": "", "markdown": "markdown", "html": "html", "title": "title"}
         )
         audio_url = self.a.upload_file(file_id)
         self.audio_url = audio_url
@@ -56,7 +56,7 @@ class Worker:
         self.p.add_bullets(bullets_verbose)
         self.p.add_headline(headline)
         self.p.add_paragraph(paragraph)
-        markdown = self.p.create_document()
+        markdown, html = self.p.create_document()
         with open("tmp/markdown.md", "w") as f:
             f.write(markdown)
         self.status_update(
@@ -65,6 +65,8 @@ class Worker:
                 "status": "finished",
                 "transcript": paragraph,
                 "markdown": markdown,
+                "html": html,
+                "title": headline
             },
         )
 
