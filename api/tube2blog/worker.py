@@ -1,4 +1,4 @@
-from tube2blog.api import AssemblyAiAPI
+from tube2blog.assemblyai import AssemblyAiAPI
 from tube2blog.parser import Parser
 from tube2blog.downloader import Downloader
 from tube2blog.utils import find_type

@@ -19,10 +19,11 @@ class Parser:
 
     def create_document(self):
         doc = Document()
-        with HeaderSubLevel(doc):
-            doc.add(Header(self.headline))
+
         if hasattr(self, "image"):
             doc.add(Image(url=self.image["url"], alt_text=self.image["alt_text"]))
+        with HeaderSubLevel(doc):
+            doc.add(Header(self.headline))
         doc.add(Paragraph(self.bullets))
         doc.add(Paragraph("<YOUTUBE_EMBED_PLACEHOLDER>"))
         doc.add(Paragraph("Transcript:"))
