@@ -54,9 +54,9 @@ def enqueue_videos():
     # accepts json post with video_ids
     data = request.json
 
-    video_urls = list(map(lambda id: f"https://www.youtube.com/watch?v={id}", data['video_ids']))
-
     for video_id in data['video_ids']:
+        video_url = f"https://www.youtube.com/watch?v={video_id}"
+
         video = VideoQueue()
         video.video_id = video_id
         video.status = "queued"
@@ -66,7 +66,9 @@ def enqueue_videos():
         
         prepare_video_transcript.delay(video_url)
 
-    return video_urls 
+    return {
+        "code": "success"
+    }
 
 @app.post("/api/update_video_status/<video_id>")
 def update_video_status(video_id):
