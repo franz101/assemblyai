@@ -19,7 +19,8 @@ class Parser:
 
     def create_document(self):
         doc = Document()
-        doc.add(Header(self.headline))
+        with HeaderSubLevel(doc):
+            doc.add(Header(self.headline))
         if hasattr(self, "image"):
             doc.add(Image(url=self.image["url"], alt_text=self.image["alt_text"]))
         doc.add(Paragraph(self.bullets))
