@@ -1,4 +1,4 @@
-import requests, config
+import requests, config, jwt, markdown
 from flask import Flask, abort, request, jsonify
 from utils.youtube import get_channel_id_from_handle
 from flask_cors import CORS
@@ -81,8 +81,35 @@ def update_video_status(video_id):
     video.status = data["status"]
     video.transcript = data["transcript"]
     video.markdown = data["markdown"]
+
     if data["status"] == "finished":
         video.finished_timestamp = datetime.now()
+
+    # Admin API key goes here
+    key = config.GHOST_ADMIN_API_KEY
+
+    # Split the key into ID and SECRET
+    id, secret = key.split(':')
+
+    # Prepare header and payload
+    iat = int(datetime.now().timestamp())
+
+    header = {'alg': 'HS256', 'typ': 'JWT', 'kid': id}
+    payload = {
+        'iat': iat,
+        'exp': iat + 5 * 60,
+        'aud': '/admin/'
+    }
+
+    # Create the token (including decoding secret)
+    token = jwt.encode(payload, bytes.fromhex(secret), algorithm='HS256', headers=header)
+
+    # Make an authenticated request to create a post
+    url = f'{config.GHOST_DOMAIN}/ghost/api/admin/posts/?source=html'
+    headers = {'Authorization': 'Ghost {}'.format(token)}
+    body = {'posts': [{'title': data['title'], 'html': markdown.markdown(data["markdown"])}]}
+    r = requests.post(url, json=body, headers=headers)
+
 
     try:
         db.session.add(video)
