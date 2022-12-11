@@ -124,7 +124,15 @@ export default function Steps() {
                   Thank you for your submission!
                 </Typography>
                 <Box mt={3}>
-                  <ConfettiExplosion />
+                  <ConfettiExplosion
+                    props={{
+                      force: 0.6,
+                      duration: 5000,
+                      particleCount: 200,
+                      height: 1600,
+                      width: 1600,
+                    }}
+                  />
                   The following video IDs are submitted 🎉:
                   {selectedVideos.map((videoId) => {
                     return <div key={videoId}>{videoId}</div>;
